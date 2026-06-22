@@ -1,0 +1,181 @@
+:root {
+    --bg-main: #0f172a;
+    --bg-container: #1e293b;
+    --bg-board: #0b1120;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-blue: #0ea5e9;
+    --accent-blue-hover: #0284c7;
+    --accent-sky: #38bdf8;
+    --border-color: #334155;
+    --gold: #fbbf24;
+    --silver: #e2e8f0;
+    --bronze: #b45309;
+    --danger: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden; 
+}
+
+.container {
+    display: flex;
+    gap: 24px;
+    background: var(--bg-container);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    max-width: 1050px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-section { flex: 2; display: flex; flex-direction: column; gap: 20px; }
+.header-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+
+input[type="text"] {
+    flex: 1; padding: 12px 16px; border: 2px solid var(--border-color);
+    border-radius: 10px; background: var(--bg-main); color: white;
+    font-size: 16px; outline: none; transition: all 0.3s ease;
+}
+input[type="text"]:focus { border-color: var(--accent-sky); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+
+/* Nişangah Seçici Menüsü */
+.crosshair-dropdown {
+    padding: 12px;
+    background: var(--bg-main);
+    color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.crosshair-dropdown:focus { border-color: var(--accent-sky); }
+.crosshair-dropdown:disabled { opacity: 0.5; cursor: not-allowed; }
+
+button {
+    padding: 12px 24px; background-color: var(--accent-blue); color: white;
+    border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+button:hover { background-color: var(--accent-blue-hover); transform: translateY(-2px); }
+button:disabled { background-color: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.stats { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.stat-box { flex: 1; text-align: center; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 16px; font-weight: 600; white-space: nowrap; }
+.stats span { color: var(--accent-sky); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; }
+
+#combo.active-combo { color: var(--gold); text-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+
+#game-board {
+    width: 100%; height: 480px; background-color: var(--bg-board);
+    border-radius: 14px; position: relative; overflow: hidden;
+    border: 2px solid var(--border-color);
+}
+
+/* NİŞANGAH (CROSSHAIR) TÜRLERİ */
+#game-board.crosshair-default, #game-board.crosshair-default .target { cursor: crosshair; }
+
+#game-board.crosshair-cs-green, #game-board.crosshair-cs-green .target { 
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect x="15" y="6" width="2" height="6" fill="%2300ff00"/><rect x="15" y="20" width="2" height="6" fill="%2300ff00"/><rect x="6" y="15" width="6" height="2" fill="%2300ff00"/><rect x="20" y="15" width="6" height="2" fill="%2300ff00"/></svg>') 16 16, crosshair; 
+}
+
+#game-board.crosshair-dot, #game-board.crosshair-dot .target { 
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="3" fill="red"/></svg>') 16 16, crosshair; 
+}
+
+/* GERİ SAYIM EKRANI */
+#countdown-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    display: flex; justify-content: center; align-items: center;
+    font-size: 120px; font-weight: 800; color: var(--gold);
+    z-index: 2000;
+    text-shadow: 0 0 40px rgba(251, 191, 36, 0.8);
+    border-radius: 12px;
+}
+.countdown-anim { animation: pop 1s ease-in-out forwards; }
+@keyframes pop { 
+    0% { transform: scale(0.5); opacity: 0; } 
+    30% { transform: scale(1.2); opacity: 1; } 
+    80% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; } 
+}
+
+.target {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle, #ef4444 15%, #ffffff 25%, #ef4444 45%, #ffffff 65%, #ef4444 85%);
+    border-radius: 50%; position: absolute;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}
+
+.target.shrinking { animation: shrinkTarget 3s linear forwards; }
+@keyframes shrinkTarget { 0% { transform: scale(1); opacity: 1; } 80% { opacity: 0.8; } 100% { transform: scale(0.2); opacity: 0; } }
+
+.floating-text {
+    position: absolute; color: white; font-family: 'JetBrains Mono', monospace;
+    font-weight: bold; font-size: 20px; pointer-events: none;
+    animation: floatUp 0.6s ease-out forwards; z-index: 1000;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+.headshot-text { color: var(--gold); font-size: 28px; font-style: italic; text-shadow: 0 0 10px rgba(251, 191, 36, 0.8); }
+.miss-text { color: var(--danger); font-size: 18px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.8); }
+
+@keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-50px) scale(1.2); opacity: 0; } }
+
+.leaderboard-section { flex: 1; background: var(--bg-main); border-radius: 14px; padding: 24px; border: 2px solid var(--border-color); display: flex; flex-direction: column; min-width: 290px; }
+.leaderboard-section h2 { margin-top: 0; margin-bottom: 18px; font-size: 20px; color: var(--accent-sky); text-align: center; border-bottom: 2px solid var(--bg-container); padding-bottom: 12px; }
+#score-list { list-style: none; padding: 0; margin: 0; max-height: 420px; overflow-y: auto; }
+#score-list::-webkit-scrollbar { width: 6px; }
+#score-list::-webkit-scrollbar-track { background: var(--bg-container); border-radius: 4px; }
+#score-list::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
+.score-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-container); margin-bottom: 8px; padding: 12px 16px; border-radius: 8px; font-size: 15px; font-weight: 600; transition: background 0.2s ease; border-left: 4px solid transparent; }
+.score-item:hover { background: #334155; }
+.score-item.loading { justify-content: center; color: var(--text-muted); border: none; background: transparent; }
+.rank-name { display: flex; align-items: center; gap: 10px; }
+.rank-number { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 14px; min-width: 20px; }
+.score-value { font-family: 'JetBrains Mono', monospace; }
+.score-item:nth-child(1) { border-left-color: var(--gold); } .score-item:nth-child(1) .rank-name { color: var(--gold); }
+.score-item:nth-child(2) { border-left-color: var(--silver); } .score-item:nth-child(2) .rank-name { color: var(--silver); }
+.score-item:nth-child(3) { border-left-color: var(--bronze); } .score-item:nth-child(3) .rank-name { color: var(--bronze); }
+
+/* YENİ EKLENEN KISIMLAR (SES VE RESTART) */
+.header-controls { flex-wrap: wrap; } /* Ekrana sığması için */
+
+.volume-control {
+    display: flex; align-items: center; gap: 8px; background: var(--bg-main);
+    padding: 10px 14px; border-radius: 10px; border: 2px solid var(--border-color);
+}
+#volume-slider { cursor: pointer; width: 80px; }
+
+#restart-btn { 
+    background-color: var(--danger); 
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); 
+}
+#restart-btn:hover { background-color: #dc2626; }
+
+/* YENİ: Sürekli Yön Değiştiren Zikzak Hedef (Turuncu/Sarı) */
+.target.erratic {
+    background: radial-gradient(circle, #f97316 15%, #ffffff 25%, #f97316 45%, #ffffff 65%, #f97316 85%);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+}
+
+#exit-btn { 
+    background-color: #64748b; 
+    box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3); 
+}
+#exit-btn:hover { background-color: #475569; }

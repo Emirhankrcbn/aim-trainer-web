@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hızlı Tetik: Aim Trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="container">
+        <section class="game-section">
+            <header class="header-controls">
+                <input type="text" id="username" placeholder="Discord Adını Yaz..." autocomplete="off">
+                <select id="crosshair-select" class="crosshair-dropdown">
+                    <option value="default">Klasik Artı</option>
+                    <option value="cs-green">CS Yeşil Cross</option>
+                    <option value="dot">Kırmızı Nokta</option>
+                </select>
+                
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+                </div>
+
+                <button id="start-btn">Oyunu Başlat</button>
+                <button id="restart-btn" style="display: none;">Yeniden Başlat</button>
+                <button id="exit-btn" style="display: none;">Oyundan Çık</button>
+            </header>
+            
+            <div class="stats">
+                <div class="stat-box">Skor: <span id="score">0</span></div>
+                <div class="stat-box">İsabet: <span id="accuracy">%100</span></div>
+                <div class="stat-box">Seri: <span id="combo" class="combo-text">0x</span></div>
+                <div class="stat-box">Süre: <span id="time">30</span></div>
+            </div>
+
+            <div id="game-board"></div>
+        </section>
+
+        <section class="leaderboard-section">
+            <h2>🏆 Liderlik Tablosu</h2>
+            <ul id="score-list">
+                <li class="score-item loading">Yükleniyor...</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
