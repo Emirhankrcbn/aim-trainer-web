@@ -47,7 +47,7 @@ iska.mp3 : Boşa tıklandığında (-1 puan) çıkan hata sesi.
 
 kazandin.mp3 : Süre bittiğinde ilk 3'e girilirse çalan tebrik müziği.
 
-kaybettin.mp3 : Süre bittiğinde ilk 3'e girilemezse çalan kaybediş müziği.
+kaybettin.mp3 : Süre bittiğinde ilk 3'e girilemezse çalan kaybediş müziği. 
 
 ### 3. Supabase Veritabanı Kurulumu
 Supabase üzerinde ücretsiz bir hesap oluşturun ve yeni bir proje başlatın.
